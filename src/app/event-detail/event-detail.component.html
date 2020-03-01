@@ -1,0 +1,18 @@
+<div class="editBox" *ngIf="event">
+	<h2>Detalhes do evento</h2>
+	<div class="editTime">
+		<label>Início:
+			<input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" [(ngModel)]="eventCopy.timeSlot" [selectMode]="'rangeFrom'" placeholder="Data/Horário" />
+			<owl-date-time #dt1 ></owl-date-time>
+		</label>
+		<label>Fim:
+			<input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" [(ngModel)]="eventCopy.timeSlot"  [selectMode]="'rangeTo'" placeholder="Data/Horário" />
+			<owl-date-time #dt2 ></owl-date-time>
+		</label>
+	</div>
+	<div class="editDescription">
+		<label>Descrição:
+			<textarea [(ngModel)]="eventCopy.description" placeholder="Descreva o evento aqui"></textarea>
+		</label>
+	</div>
+</div>

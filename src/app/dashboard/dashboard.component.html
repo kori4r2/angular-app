@@ -1,0 +1,11 @@
+<div *ngIf="isLoggedIn else loginScreen">
+	<h2>Bem vindo!</h2>
+	<nav>
+		<a routerLink="/events">Lista</a>
+	</nav>
+	<button (click)="onLogout()">logout</button>
+</div>
+<ng-template #loginScreen>
+	<h2>Faça o login</h2>
+	<button (click)="onLogin()">login</button>
+</ng-template>
