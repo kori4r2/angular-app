@@ -13,10 +13,13 @@ export class EventService {
 	events: Event[];
 
   constructor(private loginService: LoginService) {
-		this.events = newArray(EVENTS.length);
+		this.events = newArray(EVENTS.length); // placeholder
 		for(let i = 0; i < EVENTS.length; i++){
 			this.events[i] = new Event(EVENTS[i].id, EVENTS[i].description, EVENTS[i].timeSlot[0], EVENTS[i].timeSlot[1]);
 		}
+		// O ideal seria aqui fazer um subscribe para receber todos os eventos desse usuario salvos no banco de dados
+		// é necessário usar o token de loginservice para isso, e é necessário garantir que os dados estão atualizados quando o token muda
+		// Sempre que o valor recebido for diferente é preciso fazer essa chamada de sort como um callback
 		this.events.sort((e1, e2) => (e1.timeSlot[0].getTime() - e2.timeSlot[0].getTime()))
 	}
 
@@ -53,10 +56,15 @@ export class EventService {
 
 		let newEvent: Event = new Event(); // isso aqui ja é um pouco de paranoia mas o metodo é publico
 		newEvent.copyFrom(event);
+
+		// Obtem o novo id, numa implementação completa isso é gerado na inserção no banco de dados
 		let maxId = this.events.map(e => e.id).reduce(((max, cur) => Math.max(max, cur)), -1);
 		newEvent.id = maxId + 1;
 
+		// Aqui deve ser feita a chamada de inserção no banco de dados, chamando onSuccess e onFailure
+		// dependendo do resultado da operação
 		this.events.push(newEvent);
+		// O sort não precisa ser feito aqui, pode ser feito apenas quando ele recebe a lista atualizada do servidor
 		this.events.sort((e1, e2) => (e1.timeSlot[0].getTime() - e2.timeSlot[0].getTime()))
 		if(onSuccess)	onSuccess(); // nunca vai dar erro aqui
 	}
@@ -68,6 +76,8 @@ export class EventService {
 			return;
 		}
 
+		// Aqui deve ser feita a chamada de remoção no banco de dados, chamando onSuccess e onFailure
+		// dependendo do resultado da operação
 		let eventIndex: number = this.events.findIndex(e => e.id === event.id);
 		if(eventIndex > -1){
 			this.events.splice(eventIndex, 1);
@@ -84,9 +94,12 @@ export class EventService {
 			return;
 		}
 
+		// Aqui deve ser feita a chamada de alteração no banco de dados, chamando onSuccess e onFailure
+		// dependendo do resultado a operação
 		let eventIndex: number = this.events.findIndex(e => e.id === event.id);
 		if(eventIndex > -1){
 			this.events[eventIndex].copyFrom(event);
+			// O sort não precisa ser feito aqui, pode ser feito apenas quando ele recebe a lista atualizada do servidor
 			this.events.sort((e1, e2) => (e1.timeSlot[0].getTime() - e2.timeSlot[0].getTime()))
 			if(onSuccess) onSuccess();
 		}else{
@@ -97,6 +110,8 @@ export class EventService {
 	getEvents(): Observable<Event[]>{
 		// Checa se esta autenticado para realizar a operação
 		if(!this.loginService.token || this.loginService.token === ""){
+			// Caso não esteja, sempre retorna uma lista vazia
+			// Uma abordagem melhor seria fazer a pagina redirecionar para a tela de login
 			return of(newArray<Event>(0));
 		}
 
