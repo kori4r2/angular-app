@@ -1,7 +1,33 @@
 input.timeInput{
 	text-align: center;
-	width: 19em;
+	width: 95%;
 }
 .editDescription > label{
 	vertical-align: top;
+}
+.editBox{
+  width: 19em;
+	text-align: center;
+  background-color: #EEE;
+  margin: .5em;
+  padding: 1em;
+  border-radius: 4px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+.editTime, .editDescription{
+	text-align: center;
+	position: relative;
+}
+.editDescription > textarea{
+	width: 95%;
+	resize: vertical;
+}
+.editBox > .buttonBox{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	margin-left: 0;
+	margin-top: 1em;
 }

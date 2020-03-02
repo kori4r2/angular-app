@@ -1,25 +1,25 @@
 <div class="editBox" *ngIf="eventCopy else addEventButton">
 	<h2>Detalhes do evento</h2>
 	<div class="editTime">
-		<label>Duração do evento:
-			<input class="timeInput" [owlDateTime]="dt0" [owlDateTimeTrigger]="dt0" [(ngModel)]=eventCopy.timeSlot [selectMode]="'range'" placeholder="Data/Horário" />
-			<owl-date-time #dt0 ></owl-date-time>
-		</label>
+		<p><strong>Duração do evento:</strong></p>
+		<input class="timeInput" [owlDateTime]="dt0" [owlDateTimeTrigger]="dt0" [(ngModel)]=eventCopy.timeSlot [selectMode]="'range'" placeholder="Data/Horário" />
+		<owl-date-time #dt0 ></owl-date-time>
 		<p><span *ngIf="timeConflict" style="color:red;">Conflito de horários</span></p>
 	</div>
 	<div class="editDescription">
-		<label>Descrição:
-			<textarea [(ngModel)]="eventCopy.description" placeholder="Descreva o evento aqui"></textarea>
-		</label>
+		<p><strong>Descrição:</strong></p>
+		<textarea [(ngModel)]="eventCopy.description" placeholder="Descreva o evento aqui"></textarea>
 	</div>
 
-	<button *ngIf="isAddition else editButton" (click)="addThisEvent()">Salvar</button>
-	<ng-template #editButton>
-		<button (click)="updateThisEvent()">Salvar</button>
-		<button (click)="deleteThisEvent()">Apagar</button>
-	</ng-template>
-	<button (click)="closeDetails()">Fechar</button>
+	<div class="buttonBox">
+		<button *ngIf="isAddition" (click)="addThisEvent()">Salvar</button>
+		<button *ngIf="!isAddition" (click)="updateThisEvent()">Salvar</button>
+		<button *ngIf="!isAddition" (click)="deleteThisEvent()">Apagar</button>
+		<button (click)="closeDetails()">Fechar</button>
+	</div>
 </div>
 <ng-template #addEventButton>
-	<button (click)="addNewEvent()">Novo</button>
+	<div class="buttonBox">
+		<button (click)="addNewEvent()">Novo</button>
+	</div>
 </ng-template>

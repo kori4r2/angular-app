@@ -37,11 +37,13 @@ export class DashboardComponent implements OnInit {
 	onLogout(): void{
 		this.isWaiting = false;
 		this.isLoggedIn = false;
+		this.failedLogin = false;
 	}
 
 	onLogin(): void{
 		this.isWaiting = false;
 		this.isLoggedIn = true;
+		this.failedLogin = false;
 	}
 
 	onFailure(): void{

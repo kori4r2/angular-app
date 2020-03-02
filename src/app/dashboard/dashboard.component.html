@@ -1,4 +1,4 @@
-<div *ngIf="isLoggedIn else loginScreen">
+<div class="editBox" *ngIf="isLoggedIn else loginScreen">
 	<h2>Bem vindo!</h2>
 	<nav>
 		<a routerLink="/events">Lista</a>
@@ -6,13 +6,17 @@
 	<button (click)="tryLogout()">logout</button>
 </div>
 <ng-template #loginScreen>
-	<h2>Faça o login:</h2>
-	<p><span *ngIf="failedLogin" style="color:red">Combinação de usuário e senha incorreta</span></p>
-	<label>Usuário:
-		<input [(ngModel)]="username" type="text" />
-	</label><br/>
-	<label>Senha:
-		<input [(ngModel)]="password" type="password" />
-	</label><br/>
-	<button (click)="tryLogin()">login</button>
+	<div class="editBox">
+		<h2>Faça o login:</h2>
+		<p><span *ngIf="failedLogin" style="color:red">Combinação de usuário e senha incorreta</span></p>
+		<div class="inputLine">
+			<strong>Usuário:</strong>
+			<input [(ngModel)]="username" type="text" />
+		</div>
+		<div class="inputLine">
+			<strong>Senha:</strong>
+			<input [(ngModel)]="password" type="password" />
+		</div>
+		<button (click)="tryLogin()">login</button>
+	</div>
 </ng-template>

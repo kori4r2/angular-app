@@ -1,9 +1,11 @@
-<nav>
-	<a routerLink="/dashboard">Back</a>
-</nav>
-<app-event-detail [event]="selectedEvent" [onClose]="onCloseDetails"></app-event-detail>
-<ul class="eventList">
-	<li *ngFor="let eventItem of events" (click)="onSelect(eventItem)" [class.selected]="eventItem === selectedEvent">
-		<span class="startTime">{{eventItem.timeSlot[0] | date:"dd/MM/yyyy, HH:mm"}}</span>{{(eventItem.description.length > 15)?(eventItem.description.substr(0, 12) + "..."):(eventItem.description.substr(0, 15))}}
-	</li>
-</ul>
+<div class="centerBox">
+	<nav>
+		<a routerLink="/dashboard">Back</a>
+	</nav>
+	<app-event-detail [event]="selectedEvent" [onClose]="onCloseDetails"></app-event-detail>
+	<ul class="eventList">
+		<li *ngFor="let eventItem of events" (click)="onSelect(eventItem)" [class.selected]="eventItem === selectedEvent">
+			<span class="startTime">{{eventItem.timeSlot[0] | date:"dd/MM/yyyy, HH:mm"}}</span>{{(eventItem.description.length > 15)?(eventItem.description.substr(0, 12) + "..."):(eventItem.description.substr(0, 15))}}
+		</li>
+	</ul>
+</div>
