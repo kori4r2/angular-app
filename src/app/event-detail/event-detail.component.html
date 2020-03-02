@@ -1,4 +1,4 @@
-<div class="editBox" *ngIf="event">
+<div class="editBox" *ngIf="eventCopy else addEventButton">
 	<h2>Detalhes do evento</h2>
 	<div class="editTime">
 		<label>Início:
@@ -15,4 +15,14 @@
 			<textarea [(ngModel)]="eventCopy.description" placeholder="Descreva o evento aqui"></textarea>
 		</label>
 	</div>
+
+	<button *ngIf="isAddition else editButton" (click)="addThisEvent()">Salvar</button>
+	<ng-template #editButton>
+		<button (click)="updateThisEvent()">Salvar</button>
+		<button (click)="deleteThisEvent()">Apagar</button>
+	</ng-template>
+	<button (click)="closeDetails()">Fechar</button>
 </div>
+<ng-template #addEventButton>
+	<button (click)="addNewEvent()">Novo</button>
+</ng-template>

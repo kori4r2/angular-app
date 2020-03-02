@@ -19,6 +19,51 @@ export class EventService {
 		this.events.sort((e1, e2) => (e1.timeSlot[0].getTime() - e2.timeSlot[0].getTime()))
 	}
 
+	verifyValidEvent(event: Event): boolean{
+		// cria uma array
+		// percorre a lista de eventos existentes
+			// enquanto o horario de termino for maior que horario de inicio de event não faz nada
+			// verifica se o evento atual entra em conflito, se entrar adiciona na nova array
+			// se o horario de inicio for maior que o horario do fim de event sai do loop
+		// se array esta vazia retorna true
+		// se array tiver mais de um elemento retorna false
+		// se o id do elemento da array for igual ao id do elemento em conflito retorna true
+		// retorna false
+		return true; // placeholder
+	}
+
+	addEvent(event: Event, onSuccess: Function, onFailure: Function): void{
+		let newEvent: Event = new Event(); // isso aqui ja é um pouco de paranoia mas o metodo é publico
+		newEvent.copyFrom(event);
+		let maxId = this.events.map(e => e.id).reduce(((max, cur) => Math.max(max, cur)), -1);
+		newEvent.id = maxId + 1;
+
+		this.events.push(newEvent);
+		this.events.sort((e1, e2) => (e1.timeSlot[0].getTime() - e2.timeSlot[0].getTime()))
+		if(onSuccess)	onSuccess(); // nunca vai dar erro aqui
+	}
+
+	deleteEvent(event: Event, onSuccess: Function, onFailure: Function): void{
+		let eventIndex: number = this.events.findIndex(e => e.id === event.id);
+		if(eventIndex > -1){
+			this.events.splice(eventIndex, 1);
+			if(onSuccess) onSuccess();
+		}else{
+			if(onFailure) onFailure();
+		}
+	}
+
+	updateEvent(event: Event, onSuccess: Function, onFailure: Function): void{
+		let eventIndex: number = this.events.findIndex(e => e.id === event.id);
+		if(eventIndex > -1){
+			this.events[eventIndex].copyFrom(event);
+			this.events.sort((e1, e2) => (e1.timeSlot[0].getTime() - e2.timeSlot[0].getTime()))
+			if(onSuccess) onSuccess();
+		}else{
+			if(onFailure) onFailure();
+		}
+	}
+
 	getEvents(): Observable<Event[]>{
 		return of(this.events);
 	}

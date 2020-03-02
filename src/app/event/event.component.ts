@@ -10,16 +10,24 @@ import { EventService } from "../event.service";
 export class EventComponent implements OnInit {
 	events: Event[];
 	selectedEvent: Event = null;
-	onSelect(event: Event){
+
+	onSelect(event: Event): void{
 		this.selectedEvent = event;
 	}
-  constructor(private eventService: EventService) { }
+
+  constructor(private eventService: EventService) {
+		this.onCloseDetails = this.onCloseDetails.bind(this);
+	}
+
+	onCloseDetails(): void{
+		this.selectedEvent = null;
+	}
 
   ngOnInit(): void {
 		this.getEvents();
   }
 
-	getEvents(){
+	getEvents(): void{
 		this.eventService.getEvents().subscribe(events => this.events = events);
 	}
 }

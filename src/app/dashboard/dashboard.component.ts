@@ -11,11 +11,11 @@ export class DashboardComponent implements OnInit {
 
   constructor() { }
 
-	onLogout(){
+	onLogout(): void{
 		this.isLoggedIn = false; // placeholder
 	}
 
-	onLogin(){
+	onLogin(): void{
 		this.isLoggedIn = true; // placeholder
 	}
 
