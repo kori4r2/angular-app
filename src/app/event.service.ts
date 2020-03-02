@@ -22,15 +22,26 @@ export class EventService {
 
 	verifyValidEvent(event: Event): boolean{
 		// cria uma array
+		let collisions: Event[] = newArray<Event>(0);
 		// percorre a lista de eventos existentes
+		for(let i = 0; i < this.events.length; i++){
 			// enquanto o horario de termino for maior que horario de inicio de event não faz nada
-			// verifica se o evento atual entra em conflito, se entrar adiciona na nova array
-			// se o horario de inicio for maior que o horario do fim de event sai do loop
+			if(this.events[i].timeSlot[1].getTime() >= event.timeSlot[0].getTime()){ 
+				if(this.events[i].timeSlot[0].getTime() >= event.timeSlot[1].getTime()){
+					// se o horario de inicio for maior que o horario do fim de event sai do loop
+					break;
+				}else{
+					// se o evento atual entra em conflito adiciona na nova array
+					collisions.push(this.events[i]);
+				}
+			}
+		}
 		// se array esta vazia retorna true
+		if(collisions.length <= 0) return true;
 		// se array tiver mais de um elemento retorna false
+		if(collisions.length > 1) return false;
 		// se o id do elemento da array for igual ao id do elemento em conflito retorna true
-		// retorna false
-		return true; // placeholder
+		return (collisions[0].id === event.id);
 	}
 
 	addEvent(event: Event, onSuccess: Function, onFailure: Function): void{

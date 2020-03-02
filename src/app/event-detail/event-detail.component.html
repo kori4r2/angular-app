@@ -1,14 +1,11 @@
 <div class="editBox" *ngIf="eventCopy else addEventButton">
 	<h2>Detalhes do evento</h2>
 	<div class="editTime">
-		<label>Início:
-			<input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" [(ngModel)]="eventCopy.timeSlot" [selectMode]="'rangeFrom'" placeholder="Data/Horário" />
-			<owl-date-time #dt1 ></owl-date-time>
+		<label>Duração do evento:
+			<input class="timeInput" [owlDateTime]="dt0" [owlDateTimeTrigger]="dt0" [(ngModel)]=eventCopy.timeSlot [selectMode]="'range'" placeholder="Data/Horário" />
+			<owl-date-time #dt0 ></owl-date-time>
 		</label>
-		<label>Fim:
-			<input [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" [(ngModel)]="eventCopy.timeSlot"  [selectMode]="'rangeTo'" placeholder="Data/Horário" />
-			<owl-date-time #dt2 ></owl-date-time>
-		</label>
+		<p><span *ngIf="timeConflict" style="color:red;">Conflito de horários</span></p>
 	</div>
 	<div class="editDescription">
 		<label>Descrição:

@@ -13,20 +13,24 @@ export class EventDetailComponent implements OnInit {
 		if(!value){
 			this.eventCopy = null;
 			this.isAddition = false;
+			this.timeConflict = false;
 		}else if(value.id != -1){
 			this.isAddition = false;
+			this.timeConflict = false;
 			this.eventCopy = new Event(value.id,
 																 value.description, 
 																 value.timeSlot[0], 
 																 value.timeSlot[1]);
 		}else{
 			this.isAddition = true;
+			this.timeConflict = false;
 			this.eventCopy = new Event();
 		}
 	}
 	@Input() onClose: Function;
 
 	isAddition: boolean;
+	timeConflict: boolean;
 	private isWaiting: boolean;
 	eventCopy: Event;
 
@@ -37,6 +41,7 @@ export class EventDetailComponent implements OnInit {
 
 	addNewEvent(): void{
 		this.isAddition = true;
+		this.timeConflict = false;
 		this.eventCopy = new Event();
 	}
 
@@ -58,8 +63,8 @@ export class EventDetailComponent implements OnInit {
 
 	addThisEvent(): void{
 		if(this.isWaiting) return;
-		if(this.eventService.verifyValidEvent(this.eventCopy)){
-			console.log("Conflito de horarios"); // Exibir mensagem de erro
+		if(!this.eventService.verifyValidEvent(this.eventCopy)){
+			this.timeConflict = true;
 			return;
 		}
 
@@ -76,8 +81,8 @@ export class EventDetailComponent implements OnInit {
 
 	updateThisEvent(): void{
 		if(this.isWaiting) return;
-		if(this.eventService.verifyValidEvent(this.eventCopy)){
-			console.log("Conflito de horarios"); // Exibir mensagem de erro
+		if(!this.eventService.verifyValidEvent(this.eventCopy)){
+			this.timeConflict = true;
 			return;
 		}
 

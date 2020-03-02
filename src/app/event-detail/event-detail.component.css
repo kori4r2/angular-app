@@ -1,0 +1,7 @@
+input.timeInput{
+	text-align: center;
+	width: 19em;
+}
+.editDescription > label{
+	vertical-align: top;
+}
