@@ -3,9 +3,16 @@
 	<nav>
 		<a routerLink="/events">Lista</a>
 	</nav>
-	<button (click)="onLogout()">logout</button>
+	<button (click)="tryLogout()">logout</button>
 </div>
 <ng-template #loginScreen>
-	<h2>Faça o login</h2>
-	<button (click)="onLogin()">login</button>
+	<h2>Faça o login:</h2>
+	<p><span *ngIf="failedLogin" style="color:red">Combinação de usuário e senha incorreta</span></p>
+	<label>Usuário:
+		<input [(ngModel)]="username" type="text" />
+	</label><br/>
+	<label>Senha:
+		<input [(ngModel)]="password" type="password" />
+	</label><br/>
+	<button (click)="tryLogin()">login</button>
 </ng-template>

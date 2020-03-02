@@ -3,6 +3,7 @@ import { Event } from "./event"
 import { EVENTS } from "./mock-events"
 import { newArray } from '@angular/compiler/src/util';
 import { Observable, of } from "rxjs"
+import { LoginService } from 'src/app/login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class EventService {
 
 	events: Event[];
 
-  constructor() {
+  constructor(private loginService: LoginService) {
 		this.events = newArray(EVENTS.length);
 		for(let i = 0; i < EVENTS.length; i++){
 			this.events[i] = new Event(EVENTS[i].id, EVENTS[i].description, EVENTS[i].timeSlot[0], EVENTS[i].timeSlot[1]);
@@ -33,6 +34,12 @@ export class EventService {
 	}
 
 	addEvent(event: Event, onSuccess: Function, onFailure: Function): void{
+		// Checa se esta autenticado para realizar a operação
+		if(!this.loginService.token || this.loginService.token === ""){
+			if(onFailure) onFailure();
+			return;
+		}
+
 		let newEvent: Event = new Event(); // isso aqui ja é um pouco de paranoia mas o metodo é publico
 		newEvent.copyFrom(event);
 		let maxId = this.events.map(e => e.id).reduce(((max, cur) => Math.max(max, cur)), -1);
@@ -44,6 +51,12 @@ export class EventService {
 	}
 
 	deleteEvent(event: Event, onSuccess: Function, onFailure: Function): void{
+		// Checa se esta autenticado para realizar a operação
+		if(!this.loginService.token || this.loginService.token === ""){
+			if(onFailure) onFailure();
+			return;
+		}
+
 		let eventIndex: number = this.events.findIndex(e => e.id === event.id);
 		if(eventIndex > -1){
 			this.events.splice(eventIndex, 1);
@@ -54,6 +67,12 @@ export class EventService {
 	}
 
 	updateEvent(event: Event, onSuccess: Function, onFailure: Function): void{
+		// Checa se esta autenticado para realizar a operação
+		if(!this.loginService.token || this.loginService.token === ""){
+			if(onFailure) onFailure();
+			return;
+		}
+
 		let eventIndex: number = this.events.findIndex(e => e.id === event.id);
 		if(eventIndex > -1){
 			this.events[eventIndex].copyFrom(event);
@@ -65,6 +84,11 @@ export class EventService {
 	}
 
 	getEvents(): Observable<Event[]>{
+		// Checa se esta autenticado para realizar a operação
+		if(!this.loginService.token || this.loginService.token === ""){
+			return of(newArray<Event>(0));
+		}
+
 		return of(this.events);
 	}
 }
